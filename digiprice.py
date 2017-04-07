@@ -4,11 +4,14 @@ import optparse
 import json
 import urllib
 
+# Semantic Versioning: Major, Minor, Patch
+VERSION = (0, 0, 1)
 MAX_QUERY_ITEMS = 20
 
 def main():
   usage = "usage: %prog [options] partNumber ..."
-  p = optparse.OptionParser(usage=usage)
+  versionString = "%d.%d.%d" % VERSION
+  p = optparse.OptionParser(usage=usage, version="%prog "+versionString)
   p.add_option('--apikey', '-a', default="3f3a679e", help="Octopart API key")
   p.add_option('--distributor', '-d', default="Digi-Key")
   p.add_option('--strict', '-s', action="store_true", dest="strict", help="Part number must match results exactly")
