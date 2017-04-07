@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 import sys
 import optparse
 import json
@@ -67,18 +67,22 @@ def main():
         retultsTable += "%s \t No results found \n" % partNumbers[idx]
         continue
 
-      priceQuotes = [] # [[quantity, unitPrice], ...]
+      quotes = [] # [[quantity, unitPrice], ...]
       for item in result['items']:
-        priceQuotes = priceQuotes + item['offers'][0]['prices']['USD']
+        for offer in item['offers']:
+          for price in offer['prices']['USD']:
+            quantity = price[0]
+            price = price[1]
+            quote = {'quantity': quantity ,'price': price ,'mpn': str(item['mpn'])}
+            quotes.append(quote)
+          break # For now, only take the first seller offer (Digi-Key). There's a bug with the API that prevents specifying the seller
       if options.debugging:
         print "Seller: %s" % item['offers'][0]['seller']['name']
-      priceQuotes.sort(key=lambda x: x[1]) # find lowest price
-      price = priceQuotes[0][1]
-      quantity = priceQuotes[0][0]
+      quotes.sort(key=lambda x: x['price']) # find lowest price
       if quantity >= 1000:
-        retultsTable += "%s \t $%s \t @ \t %sk  \n" % (partNumbers[idx], price, quantity/1000)
+        retultsTable += "%s \t $%s \t @ \t %sk  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity']/1000)
       else:
-        retultsTable += "%s \t $%s \t @ \t %s  \n" % (partNumbers[idx], price, quantity)
+        retultsTable += "%s \t $%s \t @ \t %s  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity'])
 
   print retultsTable
 
