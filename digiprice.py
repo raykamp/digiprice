@@ -26,7 +26,7 @@ def main():
   # We can only process so many part numbers at a time
   partNumberBatches = list(chunks(arguments, MAX_QUERY_ITEMS))
 
-  retultsTable = ""
+  resultsTable = ""
 
   for partNumbers in partNumberBatches:
     # Build a query for the Octopart API
@@ -64,7 +64,7 @@ def main():
 
     for idx, result in enumerate(response['results']):
       if len(result['items']) == 0:
-        retultsTable += "%s \t No results found \n" % partNumbers[idx]
+        resultsTable += "%s \t No results found \n" % partNumbers[idx]
         continue
 
       quotes = [] # [[quantity, unitPrice], ...]
@@ -80,11 +80,11 @@ def main():
         print "Seller: %s" % item['offers'][0]['seller']['name']
       quotes.sort(key=lambda x: x['price']) # find lowest price
       if quantity >= 1000:
-        retultsTable += "%s \t $%s \t @ \t %sk  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity']/1000)
+        resultsTable += "%s \t $%s \t @ \t %sk  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity']/1000)
       else:
-        retultsTable += "%s \t $%s \t @ \t %s  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity'])
+        resultsTable += "%s \t $%s \t @ \t %s  \n" % (quotes[0]['mpn'], quotes[0]['price'], quotes[0]['quantity'])
 
-  print retultsTable
+  print resultsTable
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
