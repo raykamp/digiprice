@@ -1,3 +1,21 @@
+<p align="center">
+    <img src="digiprice.png">
+    CLI price search for electronic circuit components
+</p>
+
+
+# Purpose
+Digiprice provides instant price quotes from Digi-Key, the world's largest catalog of electronic components.  
+
+When designing mass-produced electronics, it pays to be price conscious. 
+Every penny you shave off materials costs could equate to thousands of dollars saved annually.
+
+Digiprice is fast and effortless. The intention is for engineers to leverage its convenience to more proactively compare prices and design with cost mindfulness. 
+
+# Under the Hood
+This tool relies on the exemplary Octopart API. 
+If you've automated the use of this tool and are performing many searches, please register your own API key with Octopart. Set this in Digiprice with the --apikey flag.  
+
 # Install 
 
 ## Linux or Mac
